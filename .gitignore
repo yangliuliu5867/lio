@@ -1,0 +1,21 @@
+# ROS and CMake build products
+**/build/
+**/devel/
+**/devel_isolated/
+**/build_isolated/
+**/install/
+**/.catkin_workspace
+
+# Runtime logs and generated maps
+**/.ros/
+Point-LIO/src/point_lio/PCD/*.pcd
+**/Log/*.txt
+**/log/*.csv
+**/log/*.txt
+
+# Editor and system files
+**/.vscode/
+.DS_Store
+
+# Temporary build logs
+*.log

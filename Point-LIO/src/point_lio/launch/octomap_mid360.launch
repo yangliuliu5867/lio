@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" output="screen">
+    <remap from="cloud_in" to="/cloud_registered"/>
+    <param name="frame_id" value="camera_init"/>
+    <param name="resolution" value="0.1"/>
+    <param name="filter_speckles" value="true"/>
+  </node>
+</launch>

@@ -1,0 +1,63 @@
+rog_map:
+  resolution: 0.1
+  inflation_resolution: 0.2
+  inflation_step: 1
+  unk_inflation_en: false
+  unk_inflation_step: 1
+  map_size:
+  - 50
+  - 50
+  - 6
+  fix_map_origin:
+  - 0
+  - 0
+  - 0
+  frontier_extraction_en: false
+  virtual_ceil_height: 9999
+  virtual_ground_height: -9999
+  load_pcd_en: false
+  map_sliding:
+    enable: true
+    threshold: 0.3
+  esdf:
+    enable: false
+    resolution: 0.1
+    local_update_box:
+    - 5
+    - 5
+    - 3
+  ros_callback:
+    enable: true
+    cloud_topic: /cloud_registered
+    odom_topic: /aft_mapped_to_init
+    odom_timeout: 2.0
+  visualization:
+    enable: true
+    use_dynamic_reconfigure: false
+    time_rate: 10
+    frame_rate: 0
+    range:
+    - 10
+    - 10
+    - 6
+    frame_id: world
+    pub_unknown_map_en: false
+  intensity_thresh: -10
+  point_filt_num: 5
+  raycasting:
+    enable: true
+    batch_update_size: 1
+    local_update_box:
+    - 50
+    - 50
+    - 5
+    ray_range:
+    - 0.0
+    - 15
+    p_min: 0.12
+    p_miss: 0.49
+    p_free: 0.499
+    p_occ: 0.85
+    p_hit: 0.9
+    p_max: 0.98
+    unk_thresh: 1.0
