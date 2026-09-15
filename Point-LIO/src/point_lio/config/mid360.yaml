@@ -58,7 +58,7 @@ mapping:
   - 1
 odometry:
   publish_odometry_without_downsample: true
-  publish_frequency: 50.0
+  publish_frequency: 100.0
 publish:
   path_en: true
   scan_publish_en: true
