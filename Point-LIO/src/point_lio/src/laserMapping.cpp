@@ -377,22 +377,22 @@ int main(int argc, char** argv)
 
     /*** ROS subscribe initialization ***/
     ros::Subscriber sub_pcl = p_pre->lidar_type == AVIA ? \
-        nh.subscribe(lid_topic, 200000, livox_pcl_cbk) : \
-        nh.subscribe(lid_topic, 200000, standard_pcl_cbk);
-    ros::Subscriber sub_imu = nh.subscribe(imu_topic, 200000, imu_cbk);
+        nh.subscribe(lid_topic, 5, livox_pcl_cbk) : \
+        nh.subscribe(lid_topic, 5, standard_pcl_cbk);
+    ros::Subscriber sub_imu = nh.subscribe(imu_topic, 200, imu_cbk);
 
     ros::Publisher pubLaserCloudFullRes = nh.advertise<sensor_msgs::PointCloud2>
-            ("/cloud_registered", 1000);
+            ("/cloud_registered", 1);
     ros::Publisher pubLaserCloudFullRes_body = nh.advertise<sensor_msgs::PointCloud2>
-            ("/cloud_registered_body", 1000);
+            ("/cloud_registered_body", 1);
     // ros::Publisher pubLaserCloudEffect  = nh.advertise<sensor_msgs::PointCloud2>
             // ("/cloud_effected", 1000);
     ros::Publisher pubLaserCloudMap = nh.advertise<sensor_msgs::PointCloud2>
-            ("/Laser_map", 1000);
+            ("/Laser_map", 1);
     ros::Publisher pubOdomAftMapped = nh.advertise<nav_msgs::Odometry> 
-            ("/aft_mapped_to_init", 1000);
+            ("/aft_mapped_to_init", 10);
     ros::Publisher pubPath          = nh.advertise<nav_msgs::Path> 
-            ("/path", 1000);
+            ("/path", 1);
     // ros::Publisher plane_pub = nh.advertise<visualization_msgs::Marker>
             // ("/planner_normal", 1000);
 //------------------------------------------------------------------------------------------------------
