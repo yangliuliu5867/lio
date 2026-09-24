@@ -1,0 +1,8 @@
+# Proposed Python 3.8 / ROS Noetic baseline; GPU wheel choice depends on target host.
+# This environment has NOT been installed or validated on the current Mac.
+ultralytics==8.3.40
+torch==2.4.1
+torchvision==0.19.1
+numpy==1.24.4
+opencv-python==4.10.0.84
+PyYAML==6.0.2

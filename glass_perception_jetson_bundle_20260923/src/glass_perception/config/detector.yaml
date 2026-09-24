@@ -1,0 +1,16 @@
+# Source-image pixel outputs only. Thresholds are engineering defaults, not validated results.
+rate_hz: 10.0
+max_image_age_s: 0.5
+target_labels: [suspect_surface]
+inference:
+  confidence: 0.25
+  nms_iou: 0.5
+  imgsz: 640
+  device: cpu
+  max_det: 50
+temporal:
+  min_hits: 3
+  window: 5
+  min_mean_confidence: 0.4
+  match_iou: 0.3
+  ttl: 0.5

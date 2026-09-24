@@ -1,0 +1,35 @@
+<launch>
+  <arg name="record_video" default="true"/>
+  <arg name="video_file" default="/home/flag/glass_perception_jetson_bundle_20260923/recordings/detection.avi"/>
+  <arg name="show_image" default="true"/>
+  <arg name="video_device" default="/dev/video0"/>
+  <arg name="weights" default="/home/flag/glass_perception_jetson_bundle_20260923/models/suspect_surface_yolov8n.engine"/>
+  <node pkg="usb_cam" type="usb_cam_node" name="glass_camera" output="screen" required="true">
+    <param name="video_device" value="$(arg video_device)"/>
+    <param name="image_width" value="640"/>
+    <param name="image_height" value="480"/>
+    <param name="pixel_format" value="yuyv"/>
+    <param name="framerate" value="30"/>
+    <param name="camera_frame_id" value="glass_camera_optical_frame"/>
+    <param name="io_method" value="mmap"/>
+    <remap from="~image_raw" to="/camera/color/image_raw"/>
+    <remap from="~camera_info" to="/camera/color/camera_info"/>
+  </node>
+  <include file="$(find glass_perception)/launch/monocular.launch">
+    <arg name="weights" value="$(arg weights)"/>
+    <arg name="image_topic" value="/camera/color/image_raw"/>
+    <arg name="device" value="0"/>
+  </include>
+  <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view"
+        name="glass_detection_view" args="/surface_detector/debug_image"
+        launch-prefix="/usr/bin/python3" output="screen">
+    <env name="QT_QPA_PLATFORM_PLUGIN_PATH" value="/usr/lib/aarch64-linux-gnu/qt5/plugins"/>
+  </node>
+  <node if="$(arg record_video)" pkg="image_view" type="video_recorder"
+        name="glass_video_recorder" output="screen">
+    <remap from="image" to="/surface_detector/debug_image"/>
+    <param name="filename" value="$(arg video_file)"/>
+    <param name="codec" value="MJPG"/>
+    <param name="fps" value="10.0"/>
+  </node>
+</launch>

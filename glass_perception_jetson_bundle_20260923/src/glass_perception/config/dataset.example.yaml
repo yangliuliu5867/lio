@@ -1,0 +1,7 @@
+# Replace with your dataset directory before training.
+path: datasets/suspect_surfaces
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: suspect_surface

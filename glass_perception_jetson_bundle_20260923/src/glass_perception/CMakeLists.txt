@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(glass_perception)
+find_package(catkin REQUIRED COMPONENTS rospy std_msgs sensor_msgs geometry_msgs cv_bridge message_generation)
+catkin_python_setup()
+add_message_files(FILES SurfaceCandidate.msg SurfaceCandidateArray.msg)
+generate_messages(DEPENDENCIES std_msgs geometry_msgs)
+catkin_package(CATKIN_DEPENDS rospy std_msgs sensor_msgs geometry_msgs cv_bridge message_runtime)
+catkin_install_python(PROGRAMS scripts/surface_detector_node.py scripts/train_surfaces.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(DIRECTORY launch config DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+if(CATKIN_ENABLE_TESTING)
+  catkin_add_nosetests(test/test_core.py)
+endif()

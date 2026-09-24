@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>glass_perception</name><version>0.1.0</version>
+  <description>Monocular suspect-surface bounding-box candidates with temporal evidence.</description>
+  <maintainer email="maintainer@example.com">Workspace maintainers</maintainer>
+  <license>BSD-3-Clause</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>rospy</depend><depend>std_msgs</depend><depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend><depend>cv_bridge</depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <test_depend>python3-nose</test_depend>
+</package>

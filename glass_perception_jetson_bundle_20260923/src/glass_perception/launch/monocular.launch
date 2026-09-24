@@ -1,0 +1,11 @@
+<launch>
+  <arg name="weights" doc="Existing trained suspect-surface .pt file; required"/>
+  <arg name="image_topic" default="/camera/color/image_raw"/>
+  <arg name="device" default="cpu"/>
+  <node pkg="glass_perception" type="surface_detector_node.py" name="surface_detector" output="screen" required="true">
+    <rosparam command="load" file="$(find glass_perception)/config/detector.yaml"/>
+    <param name="weights" value="$(arg weights)"/>
+    <param name="image_topic" value="$(arg image_topic)"/>
+    <param name="inference/device" value="$(arg device)" type="str"/>
+  </node>
+</launch>
