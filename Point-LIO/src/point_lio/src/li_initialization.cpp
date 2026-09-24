@@ -98,7 +98,9 @@ void standard_pcl_cbk(const sensor_msgs::PointCloud2::ConstPtr &msg)
     }
     if (!lidar_pushed)
     {
-        while (lidar_buffer.size() > 5 && time_buffer.size() > 5)
+        // Real-time odometry must process the newest complete scan.  Keeping five
+        // MID360 scans here adds about 0.5 s of stale pose latency.
+        while (lidar_buffer.size() > 1 && time_buffer.size() > 1)
         {
             lidar_buffer.pop_front();
             time_buffer.pop_front();
@@ -185,7 +187,9 @@ void livox_pcl_cbk(const livox_ros_driver2::CustomMsg::ConstPtr &msg)
     }
     if (!lidar_pushed)
     {
-        while (lidar_buffer.size() > 5 && time_buffer.size() > 5)
+        // Real-time odometry must process the newest complete scan.  Keeping five
+        // MID360 scans here adds about 0.5 s of stale pose latency.
+        while (lidar_buffer.size() > 1 && time_buffer.size() > 1)
         {
             lidar_buffer.pop_front();
             time_buffer.pop_front();

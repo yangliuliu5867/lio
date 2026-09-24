@@ -309,13 +309,15 @@ void publish_path(const ros::Publisher pubPath)
     // msg_body_pose.header.stamp = ros::Time::now();
     msg_body_pose.header.stamp = ros::Time().fromSec(lidar_end_time);
     msg_body_pose.header.frame_id = "camera_init";
-    static int jjj = 0;
-    jjj++;
-    // if (jjj % 2 == 0) // if path is too large, the rvis will crash
+    // Keep the RViz trajectory bounded; an unbounded Path becomes increasingly
+    // expensive to serialize and publish during long runs.
+    constexpr size_t MAX_PATH_POSES = 500;
+    if (path.poses.size() >= MAX_PATH_POSES)
     {
-        path.poses.emplace_back(msg_body_pose);
-        pubPath.publish(path);
+        path.poses.erase(path.poses.begin());
     }
+    path.poses.emplace_back(msg_body_pose);
+    pubPath.publish(path);
 }        
 
 int main(int argc, char** argv)
@@ -376,10 +378,12 @@ int main(int argc, char** argv)
     open_file();
 
     /*** ROS subscribe initialization ***/
+    // Drop stale LiDAR scans instead of accumulating delayed odometry.  IMU
+    // history remains deep enough for scan de-skewing and state propagation.
     ros::Subscriber sub_pcl = p_pre->lidar_type == AVIA ? \
-        nh.subscribe(lid_topic, 5, livox_pcl_cbk) : \
-        nh.subscribe(lid_topic, 5, standard_pcl_cbk);
-    ros::Subscriber sub_imu = nh.subscribe(imu_topic, 200, imu_cbk);
+        nh.subscribe(lid_topic, 1, livox_pcl_cbk) : \
+        nh.subscribe(lid_topic, 1, standard_pcl_cbk);
+    ros::Subscriber sub_imu = nh.subscribe(imu_topic, 400, imu_cbk);
 
     ros::Publisher pubLaserCloudFullRes = nh.advertise<sensor_msgs::PointCloud2>
             ("/cloud_registered", 1);
@@ -390,7 +394,7 @@ int main(int argc, char** argv)
     ros::Publisher pubLaserCloudMap = nh.advertise<sensor_msgs::PointCloud2>
             ("/Laser_map", 1);
     ros::Publisher pubOdomAftMapped = nh.advertise<nav_msgs::Odometry> 
-            ("/aft_mapped_to_init", 10);
+            ("/aft_mapped_to_init", 1);
     ros::Publisher pubPath          = nh.advertise<nav_msgs::Path> 
             ("/path", 1);
     // ros::Publisher plane_pub = nh.advertise<visualization_msgs::Marker>
