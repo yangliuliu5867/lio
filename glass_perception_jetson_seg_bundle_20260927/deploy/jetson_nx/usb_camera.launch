@@ -1,9 +1,11 @@
 <launch>
   <arg name="record_video" default="true"/>
-  <arg name="video_file" default="/home/flag/glass_perception_jetson_bundle_20260923/recordings/detection.avi"/>
+  <arg name="record_bag" default="false"/>
+  <arg name="video_file" default="/home/flag/lio/glass_perception_jetson_seg_bundle_20260927/recordings/detection.avi"/>
+  <arg name="bag_file" default="/home/flag/lio/glass_perception_jetson_seg_bundle_20260927/recordings/segmentation"/>
   <arg name="show_image" default="true"/>
   <arg name="video_device" default="/dev/video0"/>
-  <arg name="weights" default="/home/flag/glass_perception_jetson_bundle_20260923/models/suspect_surface_yolov8n.engine"/>
+  <arg name="weights" default="/home/flag/lio/glass_perception_jetson_seg_bundle_20260927/models/suspect_surface_yolov8n_seg.engine"/>
   <node pkg="usb_cam" type="usb_cam_node" name="glass_camera" output="screen" required="true">
     <param name="video_device" value="$(arg video_device)"/>
     <param name="image_width" value="640"/>
@@ -32,4 +34,7 @@
     <param name="codec" value="MJPG"/>
     <param name="fps" value="10.0"/>
   </node>
+  <node if="$(arg record_bag)" pkg="rosbag" type="record" name="glass_bag_recorder"
+        args="-O $(arg bag_file) /camera/color/image_raw /camera/color/camera_info /surface_detector/candidates /surface_detector/debug_image"
+        output="screen"/>
 </launch>

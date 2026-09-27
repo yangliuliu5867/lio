@@ -13,9 +13,12 @@ class YoloBackend:
         if type(imgsz) is not int or imgsz <= 0 or type(max_det) is not int or max_det <= 0:
             raise ValueError('imgsz and max_det must be positive integers')
         from ultralytics import YOLO
-        self.model = YOLO(str(Path(weights).expanduser()))
-        if self.model.task not in ('detect', 'segment'):
-            raise ValueError('Only detect/segment weights supported')
+        # TensorRT engine files do not reliably preserve enough metadata for
+        # Ultralytics to infer the task.  This deployment package is trained
+        # for instance segmentation, so make the contract explicit.
+        self.model = YOLO(str(Path(weights).expanduser()), task='segment')
+        if self.model.task != 'segment':
+            raise ValueError('Expected instance-segmentation weights')
         self.labels = label_map(self.model.names, target_labels)
         self.options = dict(conf=confidence, iou=nms_iou, imgsz=imgsz,
                             device=device, max_det=max_det, verbose=False,

@@ -16,6 +16,7 @@ Point-LIO/src/point_lio/PCD/*.pcd
 # Editor and system files
 **/.vscode/
 .DS_Store
+**/._*
 
 # Temporary build logs
 *.log
