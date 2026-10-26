@@ -33,7 +33,8 @@ mapping:
   acc_cov_input: 0.1
   plane_thr: 0.1
   match_s: 81
-  ivox_grid_resolution: 2.0
+  # Indoor mapping: retain enough wall/door-frame detail for glass fusion.
+  ivox_grid_resolution: 0.5
   gravity:
   - 0.0
   - 0.0
