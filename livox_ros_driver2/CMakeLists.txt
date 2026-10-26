@@ -1,3 +1,9 @@
+# A checkout inside the unified ROS Noetic workspace should build correctly
+# with a plain `catkin_make` from ~/lio.
+if(NOT DEFINED ROS_EDITION OR ROS_EDITION STREQUAL "")
+  set(ROS_EDITION "ROS1")
+endif()
+
 # judge which cmake codes to use 
 if(ROS_EDITION STREQUAL "ROS1")
 

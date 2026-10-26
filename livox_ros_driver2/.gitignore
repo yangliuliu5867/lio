@@ -1,4 +1,5 @@
 .vscode
 build
-package.xml
+# ROS1 package.xml is tracked so the unified ~/lio catkin workspace can build
+# without first running the driver-specific build wrapper.
 __pycache__
